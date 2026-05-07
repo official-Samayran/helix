@@ -1,0 +1,1 @@
+C:\Users\offic\AppData\Local\Programs\Python\Python311\pythonw.exe: No module named open_webui.__main__; 'open_webui' is a package and cannot be directly executed

@@ -1,0 +1,47 @@
+Loading WEBUI_SECRET_KEY from file, not provided as an environment variable.
+Loading WEBUI_SECRET_KEY from E:\Helix\.webui_secret_key
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+WARNI [open_webui.env] 
+
+WARNING: CORS_ALLOW_ORIGIN IS SET TO '*' - NOT RECOMMENDED FOR PRODUCTION DEPLOYMENTS.
+
+C:\Users\offic\AppData\Local\Programs\Python\Python311\Lib\site-packages\pydub\utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+  warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+WARNI [langchain_community.utils.user_agent] USER_AGENT environment variable not set, consider setting it to identify your requests.
++--------------------- Traceback (most recent call last) ---------------------+
+| C:\Users\offic\AppData\Local\Programs\Python\Python311\Lib\site-packages\op |
+| en_webui\__init__.py:68 in serve                                            |
+|                                                                             |
+|   65             os.environ['USE_CUDA_DOCKER'] = 'false'                    |
+|   66             os.environ['LD_LIBRARY_PATH'] = ':'.join(LD_LIBRARY_PATH)  |
+|   67                                                                        |
+| > 68     import open_webui.main  # noqa: F401                               |
+|   69     from open_webui.env import UVICORN_WORKERS  # Import the workers s |
+|   70                                                                        |
+|   71     uvicorn.run(                                                       |
+|                                                                             |
+| C:\Users\offic\AppData\Local\Programs\Python\Python311\Lib\site-packages\op |
+| en_webui\main.py:593 in <module>                                            |
+|                                                                             |
+|    590                                                                      |
+|    591                                                                      |
+|    592 if LOG_FORMAT != 'json':                                             |
+| >  593     print(rf"""                                                      |
+|    594  \u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2557   \u2588\u2588\u2557    \u2588\u2588\u2557    \u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2557 |
+|    595 \u2588\u2588\u2554\u2550\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2588\u2588\u2557  \u2588\u2588\u2551    \u2588\u2588\u2551    \u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255d\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2551 |
+|    596 \u2588\u2588\u2551   \u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2588\u2588\u2588\u2557  \u2588\u2588\u2554\u2588\u2588\u2557 \u2588\u2588\u2551    \u2588\u2588\u2551 \u2588\u2557 \u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2557  \u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255d\u2588\u2588\u2551 |
+|                                                                             |
+| C:\Users\offic\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252 |
+| .py:19 in encode                                                            |
+|                                                                             |
+|    16                                                                       |
+|    17 class IncrementalEncoder(codecs.IncrementalEncoder):                  |
+|    18     def encode(self, input, final=False):                             |
+| >  19         return codecs.charmap_encode(input,self.errors,encoding_table |
+|    20                                                                       |
+|    21 class IncrementalDecoder(codecs.IncrementalDecoder):                  |
+|    22     def decode(self, input, final=False):                             |
++-----------------------------------------------------------------------------+
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 3-9: 
+character maps to <undefined>
