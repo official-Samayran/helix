@@ -3,6 +3,7 @@ import subprocess
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
+# Identification: This is the Master Agent (Helix)
 ALLOWED_WRITE_PATH = r"E:\Helix_Projects"
 
 def is_path_safe(path):
@@ -12,13 +13,13 @@ def is_path_safe(path):
 def execute():
     data = request.json
     command = data.get('command')
-    # Default path E:\Helix_Projects rahega agar alag se nahi diya
     cwd = data.get('path', ALLOWED_WRITE_PATH) 
-
-    print(f"🚀 Executing Terminal Command: {command}")
+    
+    # Helix handles complex commands by ensuring the environment is ready
+    print(f"🚀 Helix Executing: {command}")
     
     try:
-        # shell=True zaruri hai 'flutter' ya 'cd' jaise commands ke liye
+        # Note: To run Flutter commands, the system PATH must be configured on the PC
         process = subprocess.Popen(
             command,
             shell=True,
@@ -28,22 +29,11 @@ def execute():
             cwd=cwd
         )
         stdout, stderr = process.communicate()
-        
-        print(f"✅ Output: {stdout[:100]}...") # Debug log
         return jsonify({
             "stdout": stdout,
             "stderr": stderr,
             "code": process.returncode
         }), 200
-    except Exception as e:
-        print(f"❌ Execution Error: {str(e)}")
-        return jsonify({"error": str(e)}), 500
-    data = request.json
-    command = data.get('command')
-    try:
-        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=ALLOWED_WRITE_PATH)
-        stdout, stderr = process.communicate()
-        return jsonify({"stdout": stdout, "stderr": stderr, "code": process.returncode})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -58,50 +48,36 @@ def write_file():
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(content)
-        return jsonify({"status": "success"})
+        return jsonify({"status": "success", "agent": "Helix"})
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
-def write_file():
-    data = request.json
-    print(f"📩 Received Write Request: {data}") # <--- DEBUG PRINT
-    
-    file_path = data.get('path')
-    content = data.get('content')
-    
-    if not is_path_safe(file_path):
-        print(f"🚫 Security Block: Path {file_path} is unsafe!") # <--- DEBUG PRINT
-        return jsonify({"error": "Access Denied"}), 403
-    try:
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)
-        with open(file_path, 'w', encoding='utf-8') as f:
-            f.write(content)
-        print(f"✅ Successfully wrote: {file_path}") # <--- DEBUG PRINT
-        return jsonify({"status": "success"})
-    except Exception as e:
-        print(f"❌ Write Error: {str(e)}") # <--- DEBUG PRINT
         return jsonify({"error": str(e)}), 500
 
-# Ye route phone ke wake-up signal ke liye hai
+@app.route('/delete', methods=['POST'])
+def delete_file():
+    data = request.json
+    file_path = data.get('path')
+    if not is_path_safe(file_path):
+        return jsonify({"error": "Access Denied"}), 403
+    try:
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+        elif os.path.isdir(file_path):
+            import shutil
+            shutil.rmtree(file_path)
+        else:
+            return jsonify({"error": "File not found"}), 404
+        return jsonify({"status": "deleted", "path": file_path})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/command', methods=['POST'])
 def command_handler():
     data = request.json
     if data.get('command') == 'START_CODING_AGENT':
-        print("🧬 HELIX: Coding Agent Activation Confirmed!")
-        return jsonify({"status": "online"}), 200
+        print("🧬 Helix Coding Agent: Activation Confirmed!")
+        return jsonify({"status": "online", "identity": "Helix"}), 200
     return jsonify({"status": "unknown"}), 404
 
-@app.route('/list', methods=['POST'])
-def list_files():
-    data = request.json
-    path = data.get('path', ALLOWED_WRITE_PATH)
-    if not is_path_safe(path):
-        return jsonify({"error": "Access Denied"}), 403
-    try:
-        files = os.listdir(path)
-        return jsonify({"files": files})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
 if __name__ == '__main__':
-    print("🧬 HELIX CODING AGENT: STANDBY ON PORT 8888")
+    print("🧬 HELIX (Master) CODING AGENT: STANDBY ON PORT 8888")
     app.run(host='0.0.0.0', port=8888)

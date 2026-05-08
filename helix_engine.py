@@ -94,6 +94,9 @@ def get_telemetry():
         "fanSpeed": fan_speed,
         "topRamApp": top_apps["ram"],
         "topCpuApp": top_apps["cpu"],
+        "status": "Online",
+        "agent_identity": "Helix",
+        "hierarchy_role": "Master",
         "status": "Online"
     }
 
